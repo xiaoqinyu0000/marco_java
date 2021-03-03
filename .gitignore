@@ -1,0 +1,27 @@
+**/target/
+/target/
+*/target/*
+.classpath
+.project
+.settings
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+*.iml
+*.idea
+
+.mvn
+
+logs
+
+.run/
+
+ringle-job-server-rest/src/main/resources/rebel.xml
+ringle-job-server-rest/src/main/resources/rebel-remote.xml
+
+*.log::q
+
+.flattened-pom.xml
