@@ -1,8 +1,10 @@
 package com.amosyo.serv.user.projects.user.respository;
 
 import com.amosyo.serv.user.projects.user.domain.User;
-import com.amosyo.serv.user.projects.user.sql.DBConnectionManager;
 import org.checkerframework.checker.nullness.qual.NonNull;
+
+import javax.annotation.Resource;
+import javax.persistence.EntityManager;
 
 /**
  * @author : amosyo (amosyo1994@gmail.com)
@@ -10,8 +12,12 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  **/
 public class DbUserRepository implements UserRepository{
 
+    @Resource(name = "bean/EntityManager")
+    private EntityManager entityManager;
+
     @Override
     public void save(@NonNull User user) {
-        DBConnectionManager.getInstance().save(user);
+        entityManager.persist(user);
+//        DBConnectionManager.getInstance().save(user);
     }
 }

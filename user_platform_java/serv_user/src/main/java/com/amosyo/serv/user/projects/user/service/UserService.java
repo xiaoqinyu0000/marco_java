@@ -1,5 +1,6 @@
 package com.amosyo.serv.user.projects.user.service;
 
+import com.amosyo.serv.user.projects.user.bo.UserBO;
 import com.amosyo.serv.user.projects.user.domain.User;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
@@ -9,5 +10,5 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  **/
 public interface UserService {
 
-    void register(final @NonNull User user);
+    void register(final @NonNull UserBO user);
 }

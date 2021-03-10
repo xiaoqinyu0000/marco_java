@@ -9,12 +9,20 @@
     <form action="${pageContext.request.contextPath}/register.do" method="post">
         <table>
             <tr>
+                <td>用户Id</td>
+                <td><input type="text" name="id"></td>
+            </tr>
+            <tr>
                 <td>用户名</td>
                 <td><input type="text" name="name"></td>
             </tr>
             <tr>
                 <td>密码</td>
                 <td><input type="password" name="password"></td>
+            </tr>
+            <tr>
+                <td>手机号码</td>
+                <td><input type="password" name="phoneNumber"></td>
             </tr>
             <tr>
                 <td><input type="submit" value="注册"></td>

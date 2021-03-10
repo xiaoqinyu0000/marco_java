@@ -1,15 +1,17 @@
 package com.amosyo.serv.user.projects.user.domain;
 
-import com.amosyo.serv.user.projects.user.sql.annotation.Id;
-import com.amosyo.serv.user.projects.user.sql.annotation.Table;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.Objects;
 
 /**
  * @author : amosyo (amosyo1994@gmail.com)
  * @since : 1.0.0
  **/
-@Table(tableName = "users")
+@Entity(name = "users")
 public class User {
 
     private Long id;
@@ -27,6 +29,7 @@ public class User {
         this.id = id;
     }
 
+    @Column
     public String getName() {
         return name;
     }
@@ -35,6 +38,7 @@ public class User {
         this.name = name;
     }
 
+    @Column
     public String getPassword() {
         return password;
     }
@@ -43,6 +47,7 @@ public class User {
         this.password = password;
     }
 
+    @Column
     public String getEmail() {
         return email;
     }
@@ -51,6 +56,7 @@ public class User {
         this.email = email;
     }
 
+    @Column
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -61,8 +67,12 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         User user = (User) o;
         return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(phoneNumber, user.phoneNumber);
     }

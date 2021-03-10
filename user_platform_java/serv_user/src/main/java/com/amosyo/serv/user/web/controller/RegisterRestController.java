@@ -1,11 +1,13 @@
 package com.amosyo.serv.user.web.controller;
 
 import com.amosyo.library.mvc.controller.RestController;
+import com.amosyo.serv.user.projects.user.bo.UserBO;
 import com.amosyo.serv.user.projects.user.domain.User;
+import com.amosyo.serv.user.projects.user.exception.RegisterUserException;
 import com.amosyo.serv.user.projects.user.service.UserService;
-import com.amosyo.serv.user.projects.user.service.impl.UserServiceImpl;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.POST;
@@ -21,32 +23,32 @@ import static org.apache.commons.lang.StringUtils.isBlank;
 @Path("/register.do")
 public class RegisterRestController implements RestController {
 
-    private final UserService userService = new UserServiceImpl();
+    @Resource(name = "service/UserService")
+    private UserService userService;
 
     @POST
     @Path("")
     public void doPostRegister(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        final String id = request.getParameter("id");
         final String name = request.getParameter("name");
         final String password = request.getParameter("password");
-        if (isBlank(name)) {
-            doResultText(response, makeFailedHtml("用户名为null"));
-            return;
-        }
-        if (isBlank(password)) {
-            doResultText(response, makeFailedHtml("密码为null"));
-            return;
-        }
-        final User user = new User();
+        final String phoneNumber = request.getParameter("phoneNumber");
+        final UserBO user = new UserBO();
         user.setName(name);
+        user.setId(id);
         user.setPassword(password);
         user.setEmail("");
-        user.setPhoneNumber("");
+        user.setPhoneNumber(phoneNumber);
 
         try {
             userService.register(user);
+        } catch (RegisterUserException registerUserException) {
+            doResultText(response, makeFailedHtml(registerUserException.getMsg()));
+            return;
         } catch (Exception e) {
             e.printStackTrace();
             doResultText(response, makeFailedHtml("请检查网络情况"));
+            return;
         }
 
         doResultText(response, makeSuccessHtml());
@@ -58,7 +60,6 @@ public class RegisterRestController implements RestController {
         response.getWriter().write(text);
         response.flushBuffer();
     }
-
 
     @NonNull
     private String makeFailedHtml(@NonNull final String reason) {

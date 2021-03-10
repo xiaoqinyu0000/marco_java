@@ -1,22 +1,13 @@
 package com.amosyo.serv.user.projects.user.sql;
 
 import com.amosyo.serv.user.function.ThrowableFunction;
-import com.amosyo.serv.user.projects.user.sql.annotation.Id;
-import com.amosyo.serv.user.projects.user.sql.annotation.Table;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
-import java.beans.BeanInfo;
-import java.beans.FeatureDescriptor;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Array;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,9 +15,7 @@ import java.sql.Statement;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.StringJoiner;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
@@ -79,51 +68,52 @@ public class DBConnectionManager {
 
     public Connection getConnection() {
         final String databaseURL = "jdbc:derby:db/user-platform;create=true";
-//        final InitialContext ctx = new InitialContxt();
-//        InitialContext context = (InitialContext) ctx.lookup("java:comp/env");
-//        final DataSource ds = (DataSource) context.lookup("jdbc/UserPlatformDB");
-//        return ds.getConnection();
         try {
-            return DriverManager.getConnection(databaseURL);
-        } catch (SQLException throwables) {
+            final InitialContext ctx = new InitialContext();
+            final DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/UserPlatformDB");
+            return ds.getConnection();
+//            return DriverManager.getConnection(databaseURL);
+        } catch (Exception throwables) {
             throwables.printStackTrace();
             throw new RuntimeException(throwables);
         }
     }
 
-    public void save(@NonNull final Object o) {
-        requireNonNull(o, "o");
-        String tableName = o.getClass().getSimpleName().toLowerCase();
-        final Table tableAnnotation = o.getClass().getAnnotation(Table.class);
-        if (!isNull(tableAnnotation) && !isBlank(tableAnnotation.tableName())) {
-            tableName = tableAnnotation.tableName();
-        }
-        try {
-            final BeanInfo beanInfo = Introspector.getBeanInfo(o.getClass(), Object.class);
-            final PropertyDescriptor[] propertyDescriptors = Arrays.stream(beanInfo.getPropertyDescriptors())
-                    .filter(descriptor -> isNull(descriptor.getReadMethod().getAnnotation(Id.class)))
-                    .collect(Collectors.toSet())
-                    .toArray(new PropertyDescriptor[]{});
-            final StringJoiner valueJoiner = new StringJoiner(",");
-            final StringJoiner keyJoiner = new StringJoiner(",");
-            Arrays.stream(propertyDescriptors).map(it -> "?").forEach(valueJoiner::add);
-            Arrays.stream(propertyDescriptors).map(FeatureDescriptor::getDisplayName).forEach(keyJoiner::add);
-            final Object[] array = Arrays.stream(propertyDescriptors).map(descriptor -> {
-                try {
-                    return descriptor.getReadMethod().invoke(o);
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    throw new IllegalArgumentException(e);
-                }
-            }).toArray();
-            final String values = valueJoiner.toString();
-            final String keys = keyJoiner.toString();
-            String sql = String.format("INSERT INTO %s (%s)VALUES(%s)", tableName, keys, values);
-            execute(sql, t -> { throw new RuntimeException(t); }, array);
-        } catch (IntrospectionException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
+//    public void save(@NonNull final Object o) {
+//        requireNonNull(o, "o");
+//        String tableName = o.getClass().getSimpleName().toLowerCase();
+//        final Table tableAnnotation = o.getClass().getAnnotation(Table.class);
+//        if (!isNull(tableAnnotation) && !isBlank(tableAnnotation.tableName())) {
+//            tableName = tableAnnotation.tableName();
+//        }
+//        try {
+//            final BeanInfo beanInfo = Introspector.getBeanInfo(o.getClass(), Object.class);
+//            final PropertyDescriptor[] propertyDescriptors = Arrays.stream(beanInfo.getPropertyDescriptors())
+//                    .filter(descriptor -> isNull(descriptor.getReadMethod().getAnnotation(Id.class)))
+//                    .collect(Collectors.toSet())
+//                    .toArray(new PropertyDescriptor[]{});
+//            final StringJoiner valueJoiner = new StringJoiner(",");
+//            final StringJoiner keyJoiner = new StringJoiner(",");
+//            Arrays.stream(propertyDescriptors).map(it -> "?").forEach(valueJoiner::add);
+//            Arrays.stream(propertyDescriptors).map(FeatureDescriptor::getDisplayName).forEach(keyJoiner::add);
+//            final Object[] array = Arrays.stream(propertyDescriptors).map(descriptor -> {
+//                try {
+//                    return descriptor.getReadMethod().invoke(o);
+//                } catch (IllegalAccessException | InvocationTargetException e) {
+//                    throw new IllegalArgumentException(e);
+//                }
+//            }).toArray();
+//            final String values = valueJoiner.toString();
+//            final String keys = keyJoiner.toString();
+//            String sql = String.format("INSERT INTO %s (%s)VALUES(%s)", tableName, keys, values);
+//            execute(sql, t -> {
+//                throw new RuntimeException(t);
+//            }, array);
+//        } catch (IntrospectionException e) {
+//            e.printStackTrace();
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     private <T> T executeQuery(final @NonNull String sql,
                                final @NonNull ThrowableFunction<ResultSet, T> function,
@@ -160,8 +150,8 @@ public class DBConnectionManager {
     }
 
     private void execute(final @NonNull String sql,
-                          final @NonNull Consumer<Throwable> exceptionHandler,
-                          final @NonNull Object... args) {
+                         final @NonNull Consumer<Throwable> exceptionHandler,
+                         final @NonNull Object... args) {
         requireNonNull(sql, "sql");
         requireNonNull(exceptionHandler, "exceptionHandler");
         final Connection connection = getConnection();
