@@ -9,6 +9,10 @@
         <listener-class>com.amosyo.library.mvc.web.listener.ContextLoaderListener</listener-class>
     </listener>
 
+    <listener>
+        <listener-class>com.amosyo.serv.user.web.listener.DbInitializationListener</listener-class>
+    </listener>
+
     <servlet>
         <servlet-name>default</servlet-name>
         <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>

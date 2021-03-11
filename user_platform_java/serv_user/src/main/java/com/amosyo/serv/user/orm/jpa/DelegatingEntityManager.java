@@ -3,6 +3,7 @@ package com.amosyo.serv.user.orm.jpa;
 import com.amosyo.library.mvc.web.component.ComponentContext;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -23,12 +24,16 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author : amosyo (amosyo1994@gmail.com)
  * @since : 1.0.0
  **/
 public class DelegatingEntityManager implements EntityManager {
+
+    private static final Logger logger = Logger.getLogger(DelegatingEntityManager.class.getName());
 
     private String persistenceUnitName;
     private String propertiesLocation;
@@ -44,12 +49,12 @@ public class DelegatingEntityManager implements EntityManager {
     }
 
     @PostConstruct
-    public void init() {
+    public void onInit() {
+        logger.log(Level.INFO,"Init DelegatingEntityManager");
         EntityManagerFactory entityManagerFactory =
                 Persistence.createEntityManagerFactory(persistenceUnitName, loadProperties(propertiesLocation));
         this.entityManager = entityManagerFactory.createEntityManager();
     }
-
     private Map loadProperties(String propertiesLocation) {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         URL propertiesFileURL = classLoader.getResource(propertiesLocation);
@@ -72,6 +77,12 @@ public class DelegatingEntityManager implements EntityManager {
         }
 
         return properties;
+    }
+
+    @PreDestroy
+    public void onDestroy() {
+        logger.log(Level.INFO,"Destroy DelegatingEntityManager");
+        entityManager.close();
     }
 
     @Override
