@@ -26,4 +26,3 @@ logs
 
 db/
 .extract
-derby.log
