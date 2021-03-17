@@ -16,6 +16,7 @@
 
 
     <dependencies>
+
         <dependency>
             <groupId>com.amosyo.user</groupId>
             <artifactId>library_web_mvc</artifactId>
@@ -73,6 +74,12 @@
         <dependency>
             <groupId>org.eclipse.microprofile.config</groupId>
             <artifactId>microprofile-config-api</artifactId>
+        </dependency>
+
+        <!-- jolokia -->
+        <dependency>
+            <groupId>org.jolokia</groupId>
+            <artifactId>jolokia-core</artifactId>
         </dependency>
 
     </dependencies>

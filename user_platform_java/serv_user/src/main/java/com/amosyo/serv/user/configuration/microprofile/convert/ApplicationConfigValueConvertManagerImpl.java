@@ -21,6 +21,7 @@ public class ApplicationConfigValueConvertManagerImpl implements ApplicationConf
     private static final Converter<Integer> CONVERTER_INT = value -> ThrowableCallable.call(() -> Integer.parseInt(requireNonNull(value, "value")), false, 0);
     private static final Converter<Float> CONVERTER_FLOAT = value -> ThrowableCallable.call(() -> Float.parseFloat(requireNonNull(value, "value")), false, 0f);
     private static final Converter<Double> CONVERTER_DOUBLE = value -> ThrowableCallable.call(() -> Double.parseDouble(requireNonNull(value, "value")), false, 0.0d);
+    private static final Converter<Boolean> CONVERTER_BOOLEAN = value -> ThrowableCallable.call(() -> Boolean.parseBoolean(requireNonNull(value, "value")), false, false);
 
     ApplicationConfigValueConvertManagerImpl() {
     }
@@ -29,7 +30,7 @@ public class ApplicationConfigValueConvertManagerImpl implements ApplicationConf
         static final ApplicationConfigValueConvertManagerImpl IMPL = new ApplicationConfigValueConvertManagerImpl();
     }
 
-    private final Map<Class<?>, Converter<?>> converts = new HashMap<Class<?>, Converter<?>>() {{
+    private final Map<Class<?>, Converter<?>> converts = new HashMap<Class<?>, Converter<?>>(11) {{
         put(String.class, CONVERTER_STRING);
         put(Long.class, CONVERTER_LONG);
         put(long.class, CONVERTER_LONG);
@@ -39,6 +40,8 @@ public class ApplicationConfigValueConvertManagerImpl implements ApplicationConf
         put(float.class, CONVERTER_FLOAT);
         put(Double.class, CONVERTER_DOUBLE);
         put(double.class, CONVERTER_DOUBLE);
+        put(Boolean.class, CONVERTER_DOUBLE);
+        put(boolean.class, CONVERTER_DOUBLE);
     }};
 
 

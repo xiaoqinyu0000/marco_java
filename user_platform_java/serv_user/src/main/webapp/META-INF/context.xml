@@ -33,4 +33,8 @@
 	<Resource name="runner/ConfigRunner" auth="Container"
 			  type="com.amosyo.serv.user.web.runner.ConfigRunner"
 			  factory="org.apache.naming.factory.BeanFactory" />
+
+	<Resource name="config/UserConfig" auth="Container"
+			  type="com.amosyo.serv.user.configuration.UserConfig"
+			  factory="org.apache.naming.factory.BeanFactory" />
 </Context>

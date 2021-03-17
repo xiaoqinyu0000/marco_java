@@ -1,6 +1,7 @@
 package com.amosyo.serv.user.web.controller;
 
 import com.amosyo.library.mvc.controller.RestController;
+import com.amosyo.library.mvc.jmx.JMXManager;
 import com.amosyo.serv.user.projects.user.bo.UserBO;
 import com.amosyo.serv.user.projects.user.domain.User;
 import com.amosyo.serv.user.projects.user.exception.RegisterUserException;
@@ -39,6 +40,7 @@ public class RegisterRestController implements RestController {
         user.setPassword(password);
         user.setEmail("");
         user.setPhoneNumber(phoneNumber);
+        JMXManager.getInstance().tryRegisterPojo(user);
 
         try {
             userService.register(user);

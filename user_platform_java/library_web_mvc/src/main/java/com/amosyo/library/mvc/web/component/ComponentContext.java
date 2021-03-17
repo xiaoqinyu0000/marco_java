@@ -2,6 +2,7 @@ package com.amosyo.library.mvc.web.component;
 
 import com.amosyo.library.mvc.function.ThrowableAction;
 import com.amosyo.library.mvc.function.ThrowableCallable;
+import com.amosyo.library.mvc.jmx.JMXManager;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -41,7 +42,7 @@ public class ComponentContext {
 
     private Context envContext;
     private ClassLoader classLoader;
-    private Map<String, Object> componentMap = new HashMap<>();
+    private final Map<String, Object> componentMap = new HashMap<>();
 
 
     public void init(ServletContext servletContext) {
@@ -50,6 +51,7 @@ public class ComponentContext {
         this.classLoader = servletContext.getClassLoader();
         instantiateComponents();
         initializeComponents();
+        letComponentsToJmx();
     }
 
     private Context getJNDIEnvContext() {
@@ -141,6 +143,11 @@ public class ComponentContext {
                         field.setAccessible(false);
                     });
                 });
+    }
+
+    private void letComponentsToJmx() {
+        final JMXManager manager = JMXManager.getInstance();
+        componentMap.values().forEach(manager::tryRegisterPojo);
     }
 
     private void processPostConstruct(Object component, Class<?> aClass) {
