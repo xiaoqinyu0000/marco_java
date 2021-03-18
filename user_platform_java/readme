@@ -1,3 +1,4 @@
 运行：./run.sh
 请访问网址：http://localhost:8080/register
 请访问网址：http://localhost:8080/jolokia/list    搜索：srv_user_platform
+请访问网址：http://localhost:8080/jolokia/read/srv_user_platform:name=config

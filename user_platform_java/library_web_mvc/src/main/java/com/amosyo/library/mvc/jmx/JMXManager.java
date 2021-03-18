@@ -33,6 +33,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
@@ -87,14 +88,32 @@ public class JMXManager {
 
             final BeanInfo beanInfo = Introspector.getBeanInfo(object.getClass());
 
-            final List<ModelMBeanAttributeInfo> attributeInfoList = Arrays.stream(object.getClass().getDeclaredFields())
+            // 1. map jmxFieldList
+            final List<JMXField> jmxFieldList = Arrays.stream(object.getClass().getDeclaredFields())
                     .filter(field -> field.isAnnotationPresent(JMXManagedAttribute.class))
-                    .map(field -> doConvertField2ModelMBeanAttributeInfo(field, beanInfo))
+                    .map(field -> this.mapFiled2JMXField(field, beanInfo))
                     .collect(Collectors.toList());
 
-            final List<ModelMBeanOperationInfo> operationInfoList = Arrays.stream(object.getClass().getDeclaredMethods())
+            // 2. collect ModelMBeanAttributeInfo List
+            final List<ModelMBeanAttributeInfo> attributeInfoList = jmxFieldList
+                    .stream()
+                    .map(this::doConvertField2ModelMBeanAttributeInfo)
+                    .collect(Collectors.toList());
+
+            // 3-1. collect ModelMBeanOperationInfo List Form Fields
+            final Stream<ModelMBeanOperationInfo> operationInfoStreamFromFields = jmxFieldList
+                    .stream()
+                    .flatMap(jmxField -> Stream.of(jmxField.getRwMethods()))
+                    .map(method -> this.doConvertMethod2ModelModelMBeanOperationInfo(method, object));
+
+            // 3-2. collect ModelMBeanOperationInfo List Form Annotations
+            final Stream<ModelMBeanOperationInfo> operationInfoStreamFromAnnotations = Arrays.stream(object.getClass().getDeclaredMethods())
                     .filter(method -> method.isAnnotationPresent(JMXManagedOperation.class))
-                    .map(method -> doConvertMethod2ModelModelMBeanOperationInfo(method, object))
+                    .map(method -> doConvertMethod2ModelModelMBeanOperationInfo(method, object));
+
+            // concat 3-1 and 3-2
+            final List<ModelMBeanOperationInfo> operationInfoList = Stream
+                    .concat(operationInfoStreamFromFields, operationInfoStreamFromAnnotations)
                     .collect(Collectors.toList());
 
             return new ModelMBeanInfoSupport(RequiredModelMBean.class.getName(),
@@ -108,8 +127,18 @@ public class JMXManager {
         }, false, null);
     }
 
+    private JMXField mapFiled2JMXField(@NonNull final Field field, @NonNull final BeanInfo beanInfo) {
+        final PropertyDescriptor propertyDescriptor = Arrays.stream(beanInfo.getPropertyDescriptors())
+                .filter(descriptor -> Objects.equals(descriptor.getName(), field.getName()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Error to Not Found Descriptor, it is " + field.getName()));
+        return new JMXField(field, propertyDescriptor);
+    }
+
     @NonNull
-    private ModelMBeanAttributeInfo doConvertField2ModelMBeanAttributeInfo(@NonNull final Field field, @NonNull final BeanInfo beanInfo) {
+    private ModelMBeanAttributeInfo doConvertField2ModelMBeanAttributeInfo(@NonNull final JMXField jmxField) {
+        final Field field = jmxField.getField();
+        final PropertyDescriptor fieldPropertyDescriptor = jmxField.getPropertyDescriptor();
 
         final Class<?> filedType = field.getType();
         if (!CLASSED_MBEAN_SUPPORTED.contains(filedType)) {
@@ -118,7 +147,6 @@ public class JMXManager {
 
         final String fieldName = field.getName();
         final JMXManagedAttribute filedAnnotation = field.getAnnotation(JMXManagedAttribute.class);
-        final PropertyDescriptor fieldPropertyDescriptor = Arrays.stream(beanInfo.getPropertyDescriptors()).filter(descriptor -> Objects.equals(descriptor.getName(), fieldName)).findFirst().orElseThrow(() -> new IllegalArgumentException("Error to Not Found Descriptor, it is " + fieldName));
         final boolean isReadable = !isNull(fieldPropertyDescriptor.getReadMethod());
         final boolean isWritable = !isNull(fieldPropertyDescriptor.getReadMethod());
         final boolean isBoolean = CLASSED_BOOLEANS.contains(filedType);
@@ -135,7 +163,6 @@ public class JMXManager {
         return new ModelMBeanAttributeInfo(
                 fieldName, filedType.getName(), filedAnnotation.description(), isReadable, isWritable, isBoolean, descriptor
         );
-
     }
 
     @NonNull
@@ -158,7 +185,7 @@ public class JMXManager {
 
         return new ModelMBeanOperationInfo(
                 methodName,
-                managedOperation.description(),
+                Optional.ofNullable(managedOperation).map(JMXManagedOperation::description).orElse(methodName),
                 parameterInfos.toArray(new MBeanParameterInfo[]{}),
                 typeName,
                 ModelMBeanOperationInfo.ACTION_INFO,
