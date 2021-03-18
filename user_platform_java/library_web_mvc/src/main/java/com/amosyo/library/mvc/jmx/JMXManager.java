@@ -82,12 +82,6 @@ public class JMXManager {
 
     @NonNull
     private ModelMBeanInfo getModelMBeanInfo(@NonNull final Object object) {
-        Descriptor portAttrDesc = new DescriptorSupport();
-        portAttrDesc.setField("name", "ConfigLocation");
-        portAttrDesc.setField("descriptorType", "attribute");
-        portAttrDesc.setField("displayName", "ConfigLocation");
-        portAttrDesc.setField("getMethod", "getConfigLocation");
-        portAttrDesc.setField("setMethod", "setConfigLocation");
 
         return ThrowableCallable.call(() -> {
 
