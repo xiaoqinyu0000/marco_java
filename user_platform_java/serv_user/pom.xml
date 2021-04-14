@@ -14,12 +14,17 @@
     <name>User Web Application ${revision}</name>
     <packaging>war</packaging>
 
-
     <dependencies>
 
         <dependency>
             <groupId>com.amosyo.user</groupId>
             <artifactId>library_web_mvc</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.amosyo.configure</groupId>
+            <artifactId>library_configure</artifactId>
             <version>${revision}</version>
         </dependency>
 
@@ -70,17 +75,12 @@
             <version>3.0.1-b11</version>
         </dependency>
 
-        <!-- MicroProfile -->
-        <dependency>
-            <groupId>org.eclipse.microprofile.config</groupId>
-            <artifactId>microprofile-config-api</artifactId>
-        </dependency>
-
         <!-- jolokia -->
         <dependency>
             <groupId>org.jolokia</groupId>
             <artifactId>jolokia-core</artifactId>
         </dependency>
+
 
     </dependencies>
 

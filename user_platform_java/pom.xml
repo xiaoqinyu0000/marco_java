@@ -9,6 +9,7 @@
     <version>${revision}</version>
     <modules>
         <module>library_web_mvc</module>
+        <module>library_configure</module>
         <module>serv_user</module>
     </modules>
     <name>User Platform ${revision}</name>
@@ -44,6 +45,9 @@
 
         <!-- jolokia 版本-->
         <jolokia.version>1.6.2</jolokia.version>
+
+        <!-- Testing 版本 -->
+        <junit.version>4.13</junit.version>
 
     </properties>
 
@@ -125,6 +129,14 @@
                 <groupId>org.jolokia</groupId>
                 <artifactId>jolokia-core</artifactId>
                 <version>${jolokia.version}</version>
+            </dependency>
+
+            <!-- JUnit -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
             </dependency>
 
         </dependencies>

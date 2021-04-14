@@ -26,15 +26,11 @@
 			  type="com.amosyo.serv.user.validation.DelegatingValidator"
 			  factory="org.apache.naming.factory.BeanFactory" />
 
-	<Resource name="bean/config" auth="Container"
-			  type="com.amosyo.serv.user.configuration.DelegatingConfig"
-			  factory="org.apache.naming.factory.BeanFactory" />
-
 	<Resource name="runner/ConfigRunner" auth="Container"
 			  type="com.amosyo.serv.user.web.runner.ConfigRunner"
 			  factory="org.apache.naming.factory.BeanFactory" />
 
 	<Resource name="config/UserConfig" auth="Container"
-			  type="com.amosyo.serv.user.configuration.UserConfig"
+			  type="com.amosyo.serv.user.config.UserConfig"
 			  factory="org.apache.naming.factory.BeanFactory" />
 </Context>

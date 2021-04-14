@@ -1,4 +1,4 @@
-package com.amosyo.serv.user.configuration;
+package com.amosyo.serv.user.config;
 
 import com.amosyo.library.mvc.jmx.annotation.JMXManagedAttribute;
 import com.amosyo.library.mvc.jmx.annotation.JMXManagedOperation;

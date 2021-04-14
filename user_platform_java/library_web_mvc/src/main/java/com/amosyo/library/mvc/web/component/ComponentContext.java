@@ -163,7 +163,7 @@ public class ComponentContext {
     }
 
     public void onDestroyed() {
-        componentMap.values().forEach(component-> processPreDestroy(component, component.getClass()));
+        componentMap.values().forEach(component -> processPreDestroy(component, component.getClass()));
     }
 
     private void processPreDestroy(Object component, Class<?> aClass) {

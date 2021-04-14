@@ -130,7 +130,6 @@ public class FrontControllerServlet extends HttpServlet {
                 final ServletContext servletContext = req.getServletContext();
                 final RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(viewPath);
                 requestDispatcher.forward(req, resp);
-                return;
             } else if (controller instanceof RestController) {
                 System.out.println("method name=" + handlerMethodInfo.getRequestMethod().getName());
                 handlerMethodInfo.getRequestMethod().invoke(controller, req, resp);

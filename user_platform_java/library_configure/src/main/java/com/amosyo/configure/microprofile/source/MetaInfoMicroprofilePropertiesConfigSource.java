@@ -1,4 +1,4 @@
-package com.amosyo.serv.user.configuration.microprofile.source;
+package com.amosyo.configure.microprofile.source;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 

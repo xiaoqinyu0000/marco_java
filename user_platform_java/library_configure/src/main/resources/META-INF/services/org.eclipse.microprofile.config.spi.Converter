@@ -1,0 +1,10 @@
+com.amosyo.configure.microprofile.convert.MicroprofileStringConverter
+com.amosyo.configure.microprofile.convert.MicroprofileBigDecimalConverter
+com.amosyo.configure.microprofile.convert.MicroprofileBigIntegerConverter
+com.amosyo.configure.microprofile.convert.MicroprofileByteConverter
+com.amosyo.configure.microprofile.convert.MicroprofileCharacterConverter
+com.amosyo.configure.microprofile.convert.MicroprofileDoubleConverter
+com.amosyo.configure.microprofile.convert.MicroprofileFloatConverter
+com.amosyo.configure.microprofile.convert.MicroprofileIntegerConverter
+com.amosyo.configure.microprofile.convert.MicroprofileLongConverter
+

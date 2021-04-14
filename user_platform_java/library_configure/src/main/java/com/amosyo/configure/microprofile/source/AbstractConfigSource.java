@@ -1,5 +1,6 @@
-package com.amosyo.serv.user.configuration.microprofile.source;
+package com.amosyo.configure.microprofile.source;
 
+import org.apache.commons.lang.StringUtils;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
@@ -19,11 +20,7 @@ public abstract class AbstractConfigSource implements ConfigSource {
     @NonNull
     private final Map<String, String> properties = new HashMap<>(0);
 
-    public AbstractConfigSource() {
-        initProperties();
-    }
-
-    private void initProperties() {
+    public void initProperties() {
         this.properties.clear();
         this.properties.putAll(loadProperties());
     }
@@ -45,7 +42,7 @@ public abstract class AbstractConfigSource implements ConfigSource {
     @Override
     @NonNull
     public String getValue(String s) {
-        if (isBlank(s)) {
+        if (StringUtils.isBlank(s)) {
             return "";
         }
         return properties.getOrDefault(s, "");

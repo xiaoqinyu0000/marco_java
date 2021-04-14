@@ -1,3 +1,0 @@
-com.amosyo.serv.user.configuration.microprofile.source.JavaSystemPropertiesConfigSource
-com.amosyo.serv.user.configuration.microprofile.source.MetaInfoMicroprofilePropertiesConfigSource
-com.amosyo.serv.user.configuration.microprofile.source.JavaSystemEnvConfigSource

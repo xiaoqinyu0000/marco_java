@@ -5,6 +5,11 @@
          http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          metadata-complete="true" version="2.5">
 
+    <context-param>
+        <param-name>author</param-name>
+        <param-value>amosyo</param-value>
+    </context-param>
+
     <listener>
         <listener-class>com.amosyo.library.mvc.web.listener.ContextLoaderListener</listener-class>
     </listener>
@@ -24,7 +29,7 @@
             <param-name>listings</param-name>
             <param-value>false</param-value>
         </init-param>
-        <load-on-startup>1</load-on-startup>
+        <load-on-startup>0</load-on-startup>
     </servlet>
 
     <servlet>
@@ -52,6 +57,10 @@
     <servlet>
         <servlet-name>FrontControllerServlet</servlet-name>
         <servlet-class>com.amosyo.library.mvc.FrontControllerServlet</servlet-class>
+        <init-param>
+            <param-name>author</param-name>
+            <param-value>amosyo</param-value>
+        </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
 

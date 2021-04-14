@@ -1,13 +1,9 @@
-package com.amosyo.serv.user.configuration.microprofile.source;
+package com.amosyo.configure.microprofile.source;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.eclipse.microprofile.config.spi.ConfigSource;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
 
 import static java.util.stream.Collectors.toMap;
 import static org.apache.commons.lang.StringUtils.isBlank;
