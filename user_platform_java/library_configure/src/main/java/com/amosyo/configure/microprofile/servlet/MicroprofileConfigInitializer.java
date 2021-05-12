@@ -1,8 +1,11 @@
 package com.amosyo.configure.microprofile.servlet;
 
+import org.eclipse.microprofile.config.Config;
+
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import java.util.ServiceLoader;
 import java.util.Set;
 
 /**
@@ -13,7 +16,7 @@ public class MicroprofileConfigInitializer implements ServletContainerInitialize
 
     @Override
     public void onStartup(Set<Class<?>> set, ServletContext servletContext) throws ServletException {
-        servletContext.addListener(new MicroprofileServletInitializerListener());
+        servletContext.addListener(MicroprofileServletInitializerListener.class);
         servletContext.addListener(MicroprofileConfigServletRequestListener.class);
     }
 }

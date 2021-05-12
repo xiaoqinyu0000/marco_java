@@ -1,9 +1,8 @@
 package com.amosyo.serv.user.web.controller;
 
 import com.amosyo.library.mvc.controller.RestController;
-import com.amosyo.library.mvc.jmx.JMXManager;
+import com.amosyo.dependency.injection.jmx.JMXManager;
 import com.amosyo.serv.user.projects.user.bo.UserBO;
-import com.amosyo.serv.user.projects.user.domain.User;
 import com.amosyo.serv.user.projects.user.exception.RegisterUserException;
 import com.amosyo.serv.user.projects.user.service.UserService;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -14,8 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import java.io.IOException;
-
-import static org.apache.commons.lang.StringUtils.isBlank;
 
 /**
  * @author : amosyo (amosyo1994@gmail.com)
@@ -40,7 +37,6 @@ public class RegisterRestController implements RestController {
         user.setPassword(password);
         user.setEmail("");
         user.setPhoneNumber(phoneNumber);
-        JMXManager.getInstance().tryRegisterPojo(user);
 
         try {
             userService.register(user);

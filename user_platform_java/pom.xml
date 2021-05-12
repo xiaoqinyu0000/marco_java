@@ -11,6 +11,7 @@
         <module>library_web_mvc</module>
         <module>library_configure</module>
         <module>serv_user</module>
+        <module>library_dependency_injection</module>
     </modules>
     <name>User Platform ${revision}</name>
     <packaging>pom</packaging>
@@ -49,12 +50,23 @@
         <!-- Testing 版本 -->
         <junit.version>4.13</junit.version>
 
+        <!-- checker framework 版本 -->
+        <checkerframework.version>3.2.0</checkerframework.version>
+
     </properties>
 
     <!-- Artifacts 依赖版本管理 -->
     <dependencyManagement>
 
         <dependencies>
+
+            <!-- guava -->
+
+            <dependency>
+                <groupId>org.checkerframework</groupId>
+                <artifactId>checker-qual</artifactId>
+                <version>${checkerframework.version}</version>
+            </dependency>
 
             <!-- guava -->
             <dependency>

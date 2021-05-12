@@ -1,4 +1,4 @@
-package com.amosyo.library.mvc.jmx;
+package com.amosyo.dependency.injection.jmx;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 

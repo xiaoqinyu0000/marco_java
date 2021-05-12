@@ -1,6 +1,7 @@
 package com.amosyo.serv.user.orm.jpa;
 
-import com.amosyo.library.mvc.web.component.ComponentContext;
+
+import com.amosyo.dependency.injection.ComponentContext;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -27,6 +28,8 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static java.util.Objects.isNull;
+
 /**
  * @author : amosyo (amosyo1994@gmail.com)
  * @since : 1.0.0
@@ -50,6 +53,9 @@ public class DelegatingEntityManager implements EntityManager {
 
     @PostConstruct
     public void onInit() {
+        if (!isNull(this.entityManager)){
+            return;
+        }
         logger.log(Level.INFO,"Init DelegatingEntityManager");
         EntityManagerFactory entityManagerFactory =
                 Persistence.createEntityManagerFactory(persistenceUnitName, loadProperties(propertiesLocation));
@@ -81,8 +87,12 @@ public class DelegatingEntityManager implements EntityManager {
 
     @PreDestroy
     public void onDestroy() {
+        if (isNull(this.entityManager)){
+            return;
+        }
         logger.log(Level.INFO,"Destroy DelegatingEntityManager");
         entityManager.close();
+        entityManager = null;
     }
 
     @Override

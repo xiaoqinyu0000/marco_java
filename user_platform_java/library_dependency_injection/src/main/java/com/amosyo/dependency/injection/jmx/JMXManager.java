@@ -1,10 +1,10 @@
-package com.amosyo.library.mvc.jmx;
+package com.amosyo.dependency.injection.jmx;
 
-import com.amosyo.library.mvc.function.ThrowableAction;
-import com.amosyo.library.mvc.function.ThrowableCallable;
-import com.amosyo.library.mvc.jmx.annotation.JMXManagedAttribute;
-import com.amosyo.library.mvc.jmx.annotation.JMXManagedOperation;
-import com.amosyo.library.mvc.jmx.annotation.JMXManagedResource;
+import com.amosyo.dependency.injection.function.ThrowableAction;
+import com.amosyo.dependency.injection.function.ThrowableCallable;
+import com.amosyo.dependency.injection.jmx.annotation.JMXManagedAttribute;
+import com.amosyo.dependency.injection.jmx.annotation.JMXManagedOperation;
+import com.amosyo.dependency.injection.jmx.annotation.JMXManagedResource;
 import com.google.common.collect.Sets;
 import org.apache.commons.lang.StringUtils;
 import org.checkerframework.checker.nullness.qual.NonNull;

@@ -3,7 +3,6 @@ package com.amosyo.library.mvc;
 import com.amosyo.library.mvc.controller.Controller;
 import com.amosyo.library.mvc.controller.PageController;
 import com.amosyo.library.mvc.controller.RestController;
-import com.amosyo.library.mvc.web.component.ComponentContext;
 import org.apache.commons.lang.StringUtils;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
@@ -75,7 +74,6 @@ public class FrontControllerServlet extends HttpServlet {
                 handlerMethodInfoMap.put(methodPath, new HandlerMethodInfo(methodPath, method, supportedHttpMethods));
                 controllerMap.put(methodPath, controller);
             }
-            ComponentContext.getInstance().injectComponents(controller, controllerClass);
         }
     }
 

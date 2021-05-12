@@ -1,8 +1,8 @@
-package com.amosyo.library.mvc.web.component;
+package com.amosyo.dependency.injection;
 
-import com.amosyo.library.mvc.function.ThrowableAction;
-import com.amosyo.library.mvc.function.ThrowableCallable;
-import com.amosyo.library.mvc.jmx.JMXManager;
+import com.amosyo.dependency.injection.function.ThrowableAction;
+import com.amosyo.dependency.injection.function.ThrowableCallable;
+import com.amosyo.dependency.injection.jmx.JMXManager;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -51,7 +51,7 @@ public class ComponentContext {
         this.classLoader = servletContext.getClassLoader();
         instantiateComponents();
         initializeComponents();
-        letComponentsToJmx();
+        doListenerDestroy();
     }
 
     private Context getJNDIEnvContext() {
@@ -127,6 +127,7 @@ public class ComponentContext {
             Class<?> aClass = component.getClass();
             injectComponents(component, aClass);
             processPostConstruct(component, aClass);
+            JMXManager.getInstance().tryRegisterPojo(component);
         });
     }
 
@@ -145,11 +146,6 @@ public class ComponentContext {
                 });
     }
 
-    private void letComponentsToJmx() {
-        final JMXManager manager = JMXManager.getInstance();
-        componentMap.values().forEach(manager::tryRegisterPojo);
-    }
-
     private void processPostConstruct(Object component, Class<?> aClass) {
         Arrays.stream(aClass.getDeclaredMethods())
                 .filter(method -> method.isAnnotationPresent(PostConstruct.class))
@@ -160,6 +156,10 @@ public class ComponentContext {
 
     public static ComponentContext getInstance() {
         return (ComponentContext) ComponentContext.servletContext.getAttribute(CONTEXT_NAME);
+    }
+
+    private void doListenerDestroy() {
+        Runtime.getRuntime().addShutdownHook(new Thread(this::onDestroyed));
     }
 
     public void onDestroyed() {

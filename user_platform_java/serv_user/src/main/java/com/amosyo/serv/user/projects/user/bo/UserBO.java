@@ -1,8 +1,8 @@
 package com.amosyo.serv.user.projects.user.bo;
 
-import com.amosyo.library.mvc.jmx.annotation.JMXManagedAttribute;
-import com.amosyo.library.mvc.jmx.annotation.JMXManagedOperation;
-import com.amosyo.library.mvc.jmx.annotation.JMXManagedResource;
+import com.amosyo.dependency.injection.jmx.annotation.JMXManagedAttribute;
+import com.amosyo.dependency.injection.jmx.annotation.JMXManagedOperation;
+import com.amosyo.dependency.injection.jmx.annotation.JMXManagedResource;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 

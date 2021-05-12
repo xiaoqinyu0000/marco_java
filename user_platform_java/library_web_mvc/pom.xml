@@ -15,6 +15,14 @@
     <packaging>jar</packaging>
 
     <dependencies>
+
+
+        <dependency>
+            <groupId>com.amosyo.dependency.injection</groupId>
+            <artifactId>library_dependency_injection</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
         <!-- Servlet API -->
         <dependency>
             <groupId>javax.servlet</groupId>

@@ -1,6 +1,6 @@
 package com.amosyo.serv.user.web.listener;
 
-import com.amosyo.library.mvc.web.component.ComponentContext;
+import com.amosyo.dependency.injection.ComponentContext;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import javax.annotation.Resource;

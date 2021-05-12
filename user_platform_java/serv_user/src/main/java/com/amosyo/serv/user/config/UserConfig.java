@@ -1,8 +1,8 @@
 package com.amosyo.serv.user.config;
 
-import com.amosyo.library.mvc.jmx.annotation.JMXManagedAttribute;
-import com.amosyo.library.mvc.jmx.annotation.JMXManagedOperation;
-import com.amosyo.library.mvc.jmx.annotation.JMXManagedResource;
+import com.amosyo.dependency.injection.jmx.annotation.JMXManagedAttribute;
+import com.amosyo.dependency.injection.jmx.annotation.JMXManagedOperation;
+import com.amosyo.dependency.injection.jmx.annotation.JMXManagedResource;
 
 import java.util.StringJoiner;
 
@@ -70,5 +70,7 @@ public class UserConfig {
                 .add("userDefaultGender='" + userDefaultGender + "'")
                 .add("userIdStep=" + userIdStep)
                 .toString();
+
+
     }
 }

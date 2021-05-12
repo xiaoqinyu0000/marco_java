@@ -1,4 +1,4 @@
-package com.amosyo.library.mvc.jmx.annotation;
+package com.amosyo.dependency.injection.jmx.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
