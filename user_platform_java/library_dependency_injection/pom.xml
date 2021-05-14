@@ -4,14 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>user_platform_java</artifactId>
-        <groupId>com.amosyo.user</groupId>
+        <groupId>com.amosyo</groupId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.amosyo.dependency.injection</groupId>
+    <groupId>com.amosyo.library</groupId>
     <artifactId>library_dependency_injection</artifactId>
     <name>Library Dependency Injection ${revision}</name>
     <packaging>jar</packaging>

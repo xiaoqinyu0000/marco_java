@@ -1,0 +1,3 @@
+com.amosyo.application.user.web.controller.RegisterController
+com.amosyo.application.user.web.controller.RegisterRestController
+com.amosyo.application.user.web.controller.ConfigRestController

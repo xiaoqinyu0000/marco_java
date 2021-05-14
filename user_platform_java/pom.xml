@@ -4,14 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.amosyo.user</groupId>
+    <groupId>com.amosyo</groupId>
     <artifactId>user_platform_java</artifactId>
     <version>${revision}</version>
     <modules>
+        <module>application_user</module>
         <module>library_web_mvc</module>
         <module>library_configure</module>
-        <module>serv_user</module>
         <module>library_dependency_injection</module>
+        <module>library_rest_client</module>
     </modules>
     <name>User Platform ${revision}</name>
     <packaging>pom</packaging>
@@ -27,6 +28,7 @@
         <jstl.version>1.2</jstl.version>
         <commons-lang.version>2.6</commons-lang.version>
         <derby.version>10.1.3.1</derby.version>
+        <javax.annotation-api.version>1.3.2</javax.annotation-api.version>
 
         <!-- Maven Plugins 版本 -->
         <maven.compiler.version>3.8.1</maven.compiler.version>
@@ -52,6 +54,12 @@
 
         <!-- checker framework 版本 -->
         <checkerframework.version>3.2.0</checkerframework.version>
+
+
+        <!-- 第三方开源历来 版本 -->
+        <jackson.version>2.9.5</jackson.version>
+        <okhttp3.version>4.9.1</okhttp3.version>
+
 
     </properties>
 
@@ -149,6 +157,37 @@
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <!-- Java Commons Annotations -->
+            <dependency>
+                <groupId>javax.annotation</groupId>
+                <artifactId>javax.annotation-api</artifactId>
+                <version>${javax.annotation-api.version}</version>
+            </dependency>
+
+            <!-- Jackson -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <!-- okhttp3 -->
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp3.version}</version>
             </dependency>
 
         </dependencies>
